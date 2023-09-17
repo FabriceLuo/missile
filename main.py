@@ -21,12 +21,13 @@ from utils import (
     get_git_repo,
     get_git_root,
     get_remote_roots,
-        )
+)
 
 
 @click.group()
 def main():
     pass
+
 
 @main.command()
 @click.option('--host')
@@ -40,10 +41,10 @@ def watch(host, port, username, password, workdir):
     username = username or os.environ['REMOTE_USERNAME']
     password = password or os.environ['REMOTE_USERNAME']
 
-    assert(host)
-    assert(port)
-    assert(username)
-    assert(password)
+    assert (host)
+    assert (port)
+    assert (username)
+    assert (password)
 
     repo_root = get_git_root(workdir)
     repo_name = get_git_repo(workdir)
@@ -52,10 +53,10 @@ def watch(host, port, username, password, workdir):
     session = Session(roots, host, port, username, password)
 
     finders = [
-            MapFinder(session),
-            NameFinder(session),
-            DiffFinder(session),
-            ]
+        MapFinder(session),
+        NameFinder(session),
+        DiffFinder(session),
+    ]
     handler = CodeEventHandler(repo_root, repo_name, session, finders)
 
     observer.schedule(handler, repo_root, recursive=True)
@@ -67,8 +68,10 @@ def watch(host, port, username, password, workdir):
         observer.stop()
         observer.join()
 
+
 def manual_map():
     pass
+
 
 if __name__ == "__main__":
     main()

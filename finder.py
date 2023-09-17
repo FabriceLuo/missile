@@ -20,6 +20,7 @@ from collections import defaultdict
 from default import Finder
 from utils import read_file
 
+
 class FileStorage(object):
     def __init__(self, file_path):
         self._file_path = file_path
@@ -65,6 +66,7 @@ class BaseFinder(object):
 class MapFinder(BaseFinder, FileStorage):
 
     """基于路径映射获取远程路径"""
+
     def __init__(self, session, map_file=Finder.MAP_DATA_FILE):
         FileStorage.__init__(self, map_file)
         BaseFinder.__init__(self, session)
@@ -137,9 +139,9 @@ class DiffFinder(NameFinder):
         diff = self._get_diff(local_file, remote_file)
 
         return {
-                'file': remote,
-                'diff': diff
-                }
+            'file': remote,
+            'diff': diff
+        }
 
     def _find_min_diff_file(self, file, files):
         file_diffs = []
@@ -175,7 +177,7 @@ class ManualFinder(NameFinder, MapFinder):
 
     def _find_base_files(self, file, files):
         """使用FZF模糊匹配"""
-        stdio_fp  = TemporaryFile()
+        stdio_fp = TemporaryFile()
         stdio_fp.writelines(files)
         stdio_fp.seek(0)
 
@@ -185,7 +187,8 @@ class ManualFinder(NameFinder, MapFinder):
         fzf_query = '--query="%s"' % file.name
         fzf_cmd = ['fzf', fzf_header, fzf_query, '--print-query']
 
-        returncode = subprocess.call(fzf_cmd, stdin=stdio_fp, stdout=stdout_fp, shell=True)
+        returncode = subprocess.call(
+            fzf_cmd, stdin=stdio_fp, stdout=stdout_fp, shell=True)
         if returncode != 0:
             return
         stdout_fp.seek(0)

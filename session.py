@@ -10,15 +10,16 @@
 """
 from fabric import Connection
 
+
 class Session(object):
     def __init__(self, roots, host, port, username, password):
         self._roots = roots
 
         connect_kwargs = {
-                'port': port,
-                'username': username,
-                'password': password,
-                }
+            'port': port,
+            'username': username,
+            'password': password,
+        }
         self._session = Connection(host, connect_kwargs=connect_kwargs)
 
     def put(self, local, remote):
@@ -34,7 +35,7 @@ class Session(object):
         result = self._session.run(cmd_str)
         if result.exited != 0:
             raise RuntimeError('run cmd:%s failed, out:%s, err:%s' %
-                    (result.command, result.stdout, result.stderr))
+                               (result.command, result.stdout, result.stderr))
 
         files = result.stdout.splitlines()
         return files

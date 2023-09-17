@@ -11,9 +11,11 @@
 
 import git
 
+
 def read_file(file):
     with open(file) as fp:
         return fp.read()
+
 
 def get_git_root(path):
     git_repo = git.Repo(path, search_parent_directories=True)
@@ -21,11 +23,13 @@ def get_git_root(path):
 
     return git_root
 
+
 def get_git_repo(path):
     git_repo = git.Repo(path, search_parent_directories=True)
     repo_name = git_repo.remotes.origin.url.split('.git')[0].split('/')[-1]
 
     return repo_name
+
 
 def get_remote_roots(repo):
     pass

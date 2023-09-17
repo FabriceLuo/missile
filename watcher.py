@@ -18,22 +18,23 @@ import logging
 
 LOG = logging.getLogger()
 
+
 class CodeEventHandler(events.PatternMatchingEventHandler):
     def __init__(self,
-            root,
-            repo,
-            session,
-            finders,
-            patterns=None,
-            ignore_patterns='.git',
-            ignore_directories=True,
-            case_sensitive=True,
-            ):
+                 root,
+                 repo,
+                 session,
+                 finders,
+                 patterns=None,
+                 ignore_patterns='.git',
+                 ignore_directories=True,
+                 case_sensitive=True,
+                 ):
         super.__init__(self,
-                patterns=patterns,
-                ignore_patterns=ignore_regexes,
-                ignore_directories=ignore_directories,
-                case_sensitive=case_sensitive)
+                       patterns=patterns,
+                       ignore_patterns=ignore_regexes,
+                       ignore_directories=ignore_directories,
+                       case_sensitive=case_sensitive)
 
         self._root = root
         self._repo = repo
@@ -62,5 +63,6 @@ class CodeEventHandler(events.PatternMatchingEventHandler):
             LOG.warning("remote path for file(%s) is not found", file)
             return
 
-        LOG.info("sync file local(%s) to remote(%s)", file.abs_path, remote_path)
+        LOG.info("sync file local(%s) to remote(%s)",
+                 file.abs_path, remote_path)
         self._session.put(file.abs_path, remote_path)
